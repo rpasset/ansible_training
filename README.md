@@ -14,3 +14,8 @@ if want to see the list of hosts in your inventory you are currently using
 ```bash
 ansible all --list-hosts
 ```
+with this command you get data about your clients - much output
+without the --limit all hosts are queried / --limit only this one
+```bash
+ansible all -m gather_facts --limit <IP>
+```
