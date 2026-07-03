@@ -38,14 +38,22 @@
 - hosts: db_servers
   become: true
   tasks:
-  - name: Install MariaDB server
+  - name: apt Install MariaDB server
     apt:
       name: mariadb-server
       state: latest
     when: ansible_os_family == "Debian"
-  - name: zypper Update cache and Install MariaDB server
+  - name: zypper Install MariaDB server
     community.general.zypper:
       name: mariadb-server
       state: latest
     when: ansible_os_family == "Suse"
 
+- hosts: file_servers
+  become: true
+  tasks:
+  - name: Install Samba server
+    package:
+      name: samba
+      state: latest
+    
