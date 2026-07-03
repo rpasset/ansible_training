@@ -7,12 +7,27 @@
     apt:
       update_cache: yes
       cache_valid_time: 3600
+    when: ansible_os_family == "Debian"
   - name: Install Apache
     apt:
       name: apache2
       state: latest
+    when: ansible_os_family == "Debian"
   - name: add php support for apache
     apt:
       name: libapache2-mod-php
       state: latest
+    when: ansible_os_family == "Debian"
+
+  - name: zypper Update cache and Install Apache
+    community.general.zypper:
+      name: apache2
+      state: latest
+      update_cache: yes
+    when: ansible_os_family == "Suse"
+  - name: zypper add php support for apache
+    community.general.zypper:
+      name: apache2-mod_php8
+      state: latest
+    when: ansible_os_family == "Suse"
 
