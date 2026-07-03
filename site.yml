@@ -4,12 +4,16 @@
   become: true
   pre_tasks:
   - name: Update apt system
+    tags: always
+      - update
     apt:
       upgrade: dist
       update_cache: yes
       cache_valid_time: 3600
     when: ansible_os_family == "Debian"
   - name: update zypper system
+    tags: always
+      - update
     community.general.zypper:
       update_cache: yes
       name: '*'
@@ -21,6 +25,7 @@
   become: true
   tasks:
   - name: Install Apache and php support for apache
+    tags: apache,apache2,ubuntu 
     apt:
       name:
         - apache2
@@ -28,6 +33,7 @@
       state: latest
     when: ansible_os_family == "Debian"
   - name: zypper Update cache and Install Apache
+    tags: apache,apache2,suse  
     community.general.zypper:
       name:
         - apache2
@@ -39,17 +45,20 @@
   become: true
   tasks:
   - name: apt Install MariaDB server
+    tags: mariadb,db,ubuntu
     apt:
       name: mariadb-server
       state: latest
     when: ansible_os_family == "Debian"
   - name: zypper Install MariaDB server
+    tags: mariadb,db,suse
     community.general.zypper:
       name: mariadb-server
       state: latest
     when: ansible_os_family == "Suse"
 
 - hosts: file_servers
+  tags: samba,fileserver
   become: true
   tasks:
   - name: Install Samba server
