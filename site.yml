@@ -41,6 +41,27 @@
       state: latest
     when: ansible_os_family == "Suse"
   
+  - name: Copy default site to web server ubuntu
+    tags: apache,apache2,ubuntu
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: '0644'
+    when: ansible_os_family == "Debian"
+
+  - name: Copy default site to web server suse
+    tags: apache,apache2,suse
+    copy:
+      src: default_site.html
+      dest: /srv/www/htdocs/index.html
+      owner: root
+      group: root
+      mode: '0644'
+    when: ansible_os_family == "Suse"
+
+  
 - hosts: db_servers
   become: true
   tasks:
